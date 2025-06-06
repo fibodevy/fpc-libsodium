@@ -57,14 +57,17 @@ const
   _crypto_aead_chacha20poly1305_ietf_NSECBYTES = 0;
   _crypto_aead_chacha20poly1305_ietf_NPUBBYTES = 12;
   _crypto_aead_chacha20poly1305_ietf_ABYTES = 16;
+  _crypto_aead_chacha20poly1305_ietf_MESSAGEBYTES_MAX = 274877906880;
   _crypto_aead_chacha20poly1305_KEYBYTES = 32;
   _crypto_aead_chacha20poly1305_NSECBYTES = 0;
   _crypto_aead_chacha20poly1305_NPUBBYTES = 8;
   _crypto_aead_chacha20poly1305_ABYTES = 16;
+  _crypto_aead_chacha20poly1305_MESSAGEBYTES_MAX = SODIUM_SIZE_MAX - _crypto_aead_chacha20poly1305_ABYTES;
   _crypto_aead_xchacha20poly1305_ietf_KEYBYTES = 32;
   _crypto_aead_xchacha20poly1305_ietf_NSECBYTES = 0;
   _crypto_aead_xchacha20poly1305_ietf_NPUBBYTES = 24;
   _crypto_aead_xchacha20poly1305_ietf_ABYTES = 16;
+  _crypto_aead_xchacha20poly1305_ietf_MESSAGEBYTES_MAX = SODIUM_SIZE_MAX - _crypto_aead_xchacha20poly1305_ietf_ABYTES;
   _crypto_auth_PRIMITIVE = 'hmacsha512256';
   _crypto_auth_hmacsha256_BYTES = 32;
   _crypto_auth_hmacsha256_KEYBYTES = 32;
@@ -74,31 +77,11 @@ const
   _crypto_auth_hmacsha512256_KEYBYTES = 32;
   _crypto_auth_BYTES = _crypto_auth_hmacsha512256_BYTES;
   _crypto_auth_KEYBYTES = _crypto_auth_hmacsha512256_KEYBYTES;
-  _crypto_box_curve25519xchacha20poly1305_SEEDBYTES = 32;
-  _crypto_box_curve25519xchacha20poly1305_PUBLICKEYBYTES = 32;
-  _crypto_box_curve25519xchacha20poly1305_SECRETKEYBYTES = 32;
-  _crypto_box_curve25519xchacha20poly1305_BEFORENMBYTES = 32;
-  _crypto_box_curve25519xchacha20poly1305_NONCEBYTES = 24;
-  _crypto_box_curve25519xchacha20poly1305_MACBYTES = 16;
-  _crypto_box_curve25519xsalsa20poly1305_SEEDBYTES = 32;
-  _crypto_box_curve25519xsalsa20poly1305_PUBLICKEYBYTES = 32;
-  _crypto_box_curve25519xsalsa20poly1305_SECRETKEYBYTES = 32;
-  _crypto_box_curve25519xsalsa20poly1305_BEFORENMBYTES = 32;
-  _crypto_box_curve25519xsalsa20poly1305_NONCEBYTES = 24;
-  _crypto_box_curve25519xsalsa20poly1305_MACBYTES = 16;
-  _crypto_box_curve25519xsalsa20poly1305_BOXZEROBYTES = 16;
-  _crypto_box_SEEDBYTES = _crypto_box_curve25519xsalsa20poly1305_SEEDBYTES;
-  _crypto_box_PUBLICKEYBYTES = _crypto_box_curve25519xsalsa20poly1305_PUBLICKEYBYTES;
-  _crypto_box_SECRETKEYBYTES = _crypto_box_curve25519xsalsa20poly1305_SECRETKEYBYTES;
-  _crypto_box_NONCEBYTES = _crypto_box_curve25519xsalsa20poly1305_NONCEBYTES;
-  _crypto_box_MACBYTES = _crypto_box_curve25519xsalsa20poly1305_MACBYTES;
-  _crypto_box_PRIMITIVE = 'curve25519xsalsa20poly1305';
-  _crypto_box_BEFORENMBYTES = _crypto_box_curve25519xsalsa20poly1305_BEFORENMBYTES;
-  _crypto_box_BOXZEROBYTES = _crypto_box_curve25519xsalsa20poly1305_BOXZEROBYTES;
   _crypto_core_ed25519_BYTES = 32;
   _crypto_core_ed25519_UNIFORMBYTES = 32;
   _crypto_core_ed25519_SCALARBYTES = 32;
   _crypto_core_ed25519_NONREDUCEDSCALARBYTES = 64;
+  _crypto_core_ed25519_HASHBYTES = 64;
   _crypto_core_hchacha20_OUTPUTBYTES = 32;
   _crypto_core_hchacha20_INPUTBYTES = 16;
   _crypto_core_hchacha20_KEYBYTES = 32;
@@ -110,6 +93,7 @@ const
   _crypto_core_ristretto255_BYTES = 32;
   _crypto_core_ristretto255_SCALARBYTES = 32;
   _crypto_core_ristretto255_NONREDUCEDSCALARBYTES = 64;
+  _crypto_core_ristretto255_HASHBYTES = 64;
   _crypto_core_salsa20_OUTPUTBYTES = 64;
   _crypto_core_salsa20_INPUTBYTES = 16;
   _crypto_core_salsa20_KEYBYTES = 32;
@@ -152,8 +136,10 @@ const
   _crypto_kdf_KEYBYTES = _crypto_kdf_blake2b_KEYBYTES;
   _crypto_kdf_hkdf_sha256_KEYBYTES = _crypto_auth_hmacsha256_BYTES;
   _crypto_kdf_hkdf_sha256_BYTES_MIN = 0;
+  _crypto_kdf_hkdf_sha256_BYTES_MAX = $ff * _crypto_auth_hmacsha256_BYTES;
   _crypto_kdf_hkdf_sha512_KEYBYTES = _crypto_auth_hmacsha512_BYTES;
   _crypto_kdf_hkdf_sha512_BYTES_MIN = 0;
+  _crypto_kdf_hkdf_sha512_BYTES_MAX = $ff * _crypto_auth_hmacsha512_BYTES;
   _crypto_kx_PUBLICKEYBYTES = 32;
   _crypto_kx_SECRETKEYBYTES = 32;
   _crypto_kx_SEEDBYTES = 32;
@@ -247,6 +233,29 @@ const
   _crypto_stream_xsalsa20_KEYBYTES = 32;
   _crypto_stream_xsalsa20_NONCEBYTES = 24;
   _crypto_stream_xsalsa20_MESSAGEBYTES_MAX = SODIUM_SIZE_MAX;
+  _crypto_box_curve25519xchacha20poly1305_SEEDBYTES = 32;
+  _crypto_box_curve25519xchacha20poly1305_PUBLICKEYBYTES = 32;
+  _crypto_box_curve25519xchacha20poly1305_SECRETKEYBYTES = 32;
+  _crypto_box_curve25519xchacha20poly1305_BEFORENMBYTES = 32;
+  _crypto_box_curve25519xchacha20poly1305_NONCEBYTES = 24;
+  _crypto_box_curve25519xchacha20poly1305_MACBYTES = 16;
+  _crypto_box_curve25519xchacha20poly1305_MESSAGEBYTES_MAX =_crypto_stream_xchacha20_MESSAGEBYTES_MAX -_crypto_box_curve25519xchacha20poly1305_MACBYTES;
+  _crypto_box_curve25519xchacha20poly1305_SEALBYTES = _crypto_box_curve25519xchacha20poly1305_PUBLICKEYBYTES + _crypto_box_curve25519xchacha20poly1305_MACBYTES;
+  _crypto_box_curve25519xsalsa20poly1305_SEEDBYTES = 32;
+  _crypto_box_curve25519xsalsa20poly1305_PUBLICKEYBYTES = 32;
+  _crypto_box_curve25519xsalsa20poly1305_SECRETKEYBYTES = 32;
+  _crypto_box_curve25519xsalsa20poly1305_BEFORENMBYTES = 32;
+  _crypto_box_curve25519xsalsa20poly1305_NONCEBYTES = 24;
+  _crypto_box_curve25519xsalsa20poly1305_MACBYTES = 16;
+  _crypto_box_curve25519xsalsa20poly1305_BOXZEROBYTES = 16;
+  _crypto_box_SEEDBYTES = _crypto_box_curve25519xsalsa20poly1305_SEEDBYTES;
+  _crypto_box_PUBLICKEYBYTES = _crypto_box_curve25519xsalsa20poly1305_PUBLICKEYBYTES;
+  _crypto_box_SECRETKEYBYTES = _crypto_box_curve25519xsalsa20poly1305_SECRETKEYBYTES;
+  _crypto_box_NONCEBYTES = _crypto_box_curve25519xsalsa20poly1305_NONCEBYTES;
+  _crypto_box_MACBYTES = _crypto_box_curve25519xsalsa20poly1305_MACBYTES;
+  _crypto_box_PRIMITIVE = 'curve25519xsalsa20poly1305';
+  _crypto_box_BEFORENMBYTES = _crypto_box_curve25519xsalsa20poly1305_BEFORENMBYTES;
+  _crypto_box_BOXZEROBYTES = _crypto_box_curve25519xsalsa20poly1305_BOXZEROBYTES;
   _crypto_scalarmult_PRIMITIVE = 'curve25519';
   _crypto_scalarmult_curve25519_BYTES = 32;
   _crypto_scalarmult_curve25519_SCALARBYTES = 32;
@@ -259,6 +268,7 @@ const
   _crypto_secretbox_xchacha20poly1305_KEYBYTES = 32;
   _crypto_secretbox_xchacha20poly1305_NONCEBYTES = 24;
   _crypto_secretbox_xchacha20poly1305_MACBYTES = 16;
+  _crypto_secretbox_xchacha20poly1305_MESSAGEBYTES_MAX = _crypto_stream_xchacha20_MESSAGEBYTES_MAX - _crypto_secretbox_xchacha20poly1305_MACBYTES;
   _crypto_secretbox_xsalsa20poly1305_KEYBYTES = 32;
   _crypto_secretbox_xsalsa20poly1305_NONCEBYTES = 24;
   _crypto_secretbox_xsalsa20poly1305_MACBYTES = 16;
@@ -274,6 +284,9 @@ const
   _crypto_secretstream_xchacha20poly1305_TAG_PUSH = $01;
   _crypto_secretstream_xchacha20poly1305_TAG_REKEY = $02;
   _crypto_secretstream_xchacha20poly1305_TAG_FINAL = $03;
+  _crypto_secretstream_xchacha20poly1305_ABYTES = 1 + _crypto_aead_xchacha20poly1305_ietf_ABYTES;
+  _crypto_secretstream_xchacha20poly1305_HEADERBYTES = _crypto_aead_xchacha20poly1305_ietf_NPUBBYTES;
+  _crypto_secretstream_xchacha20poly1305_MESSAGEBYTES_MAX = 274877906816;
   _crypto_shorthash_PRIMITIVE = 'siphash24';
   _crypto_shorthash_siphash24_BYTES = 8;
   _crypto_shorthash_siphash24_KEYBYTES = 16;
@@ -306,6 +319,7 @@ const
   _crypto_verify_32_BYTES = 32;
   _crypto_verify_64_BYTES = 64;
   _randombytes_SEEDBYTES = 32;
+  _randombytes_BYTES_MAX = $ffffffff;
   _sodium_base64_VARIANT_ORIGINAL = 1;
   _sodium_base64_VARIANT_ORIGINAL_NO_PADDING = 3;
   _sodium_base64_VARIANT_URLSAFE = 5;
@@ -366,6 +380,14 @@ type
   crypto_onetimeauth_state = crypto_onetimeauth_poly1305_state;
   pcrypto_onetimeauth_state = ^crypto_onetimeauth_state;
 
+  crypto_sign_ed25519ph_state = packed record
+    hs: crypto_hash_sha512_state;
+  end;
+  pcrypto_sign_ed25519ph_state = ^crypto_sign_ed25519ph_state;
+
+  crypto_sign_state = crypto_sign_ed25519ph_state;
+  pcrypto_sign_state = ^crypto_sign_state;
+
   crypto_secretstream_xchacha20poly1305_state = packed record
     k: array[0..31] of uint32;
     nonce: array[0..11] of uint32;
@@ -377,6 +399,16 @@ type
     opaque: array[0..511] of byte;
   end;
   pcrypto_aead_aes256gcm_state = ^crypto_aead_aes256gcm_state;
+
+  crypto_kdf_hkdf_sha256_state = packed record
+    st: crypto_auth_hmacsha256_state;
+  end;
+  pcrypto_kdf_hkdf_sha256_state = ^crypto_kdf_hkdf_sha256_state;
+
+  crypto_kdf_hkdf_sha512_state = packed record
+    st: crypto_auth_hmacsha512_state;
+  end;
+  pcrypto_kdf_hkdf_sha512_state = ^crypto_kdf_hkdf_sha512_state;
 
   randombytes_implementation = packed record
     implementation_name: pansichar;
@@ -406,6 +438,10 @@ function crypto_aead_chacha20poly1305_ietf_npubbytes: size_t; cdecl; external {$
 function crypto_aead_chacha20poly1305_ietf_encrypt(const c: pansichar; clen: puint64; const m: pansichar; mlen: uint64; const ad: pansichar; adlen: uint64; const nsec: pansichar; const npub: pansichar; const k: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Verify then decrypt using IETF ChaCha20-Poly1305
 function crypto_aead_chacha20poly1305_ietf_decrypt(const m: pansichar; mlen: puint64; const nsec: pansichar; const c: pansichar; clen: uint64; const ad: pansichar; adlen: uint64; const npub: pansichar; const k: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Maximum message length for IETF ChaCha20-Poly1305
+function crypto_aead_chacha20poly1305_ietf_messagebytes_max: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Maximum message length for ChaCha20-Poly1305
+function crypto_aead_chacha20poly1305_messagebytes_max: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Length of a crypto_auth authentication tag
 function crypto_auth_bytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Length of a crypto_auth key
@@ -548,6 +584,48 @@ function crypto_box_curve25519xsalsa20poly1305_beforenm(const k: pansichar; cons
 function crypto_box_curve25519xsalsa20poly1305_afternm(const c: pansichar; const m: pansichar; mlen: uint64; const n: pansichar; const k: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Encrypt using a precomputed key for curve25519xsalsa20poly1305
 function crypto_box_curve25519xsalsa20poly1305_open_afternm(const m: pansichar; const c: pansichar; clen: uint64; const n: pansichar; const k: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Number of bytes in a curve25519xchacha20poly1305 seed
+function crypto_box_curve25519xchacha20poly1305_seedbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Size of the curve25519xchacha20poly1305 public key in bytes
+function crypto_box_curve25519xchacha20poly1305_publickeybytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Size of the curve25519xchacha20poly1305 secret key in bytes
+function crypto_box_curve25519xchacha20poly1305_secretkeybytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Length of the precomputed shared key
+function crypto_box_curve25519xchacha20poly1305_beforenmbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Length of the curve25519xchacha20poly1305 nonce
+function crypto_box_curve25519xchacha20poly1305_noncebytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Size of the authentication tag in bytes
+function crypto_box_curve25519xchacha20poly1305_macbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Maximum message size that can be encrypted
+function crypto_box_curve25519xchacha20poly1305_messagebytes_max: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Generate a key pair from a seed
+function crypto_box_curve25519xchacha20poly1305_seed_keypair(pk: pbyte; sk: pbyte; const seed: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Generate a random curve25519xchacha20poly1305 key pair
+function crypto_box_curve25519xchacha20poly1305_keypair(pk: pbyte; sk: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Encrypt and authenticate a message
+function crypto_box_curve25519xchacha20poly1305_easy(c: pbyte; const m: pbyte; mlen: uint64; const n: pbyte; const pk: pbyte; const sk: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Verify and decrypt a message
+function crypto_box_curve25519xchacha20poly1305_open_easy(m: pbyte; const c: pbyte; clen: uint64; const n: pbyte; const pk: pbyte; const sk: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Encrypt with detached authentication tag
+function crypto_box_curve25519xchacha20poly1305_detached(c: pbyte; mac: pbyte; const m: pbyte; mlen: uint64; const n: pbyte; const pk: pbyte; const sk: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Decrypt a message with a detached tag
+function crypto_box_curve25519xchacha20poly1305_open_detached(m: pbyte; const c: pbyte; const mac: pbyte; clen: uint64; const n: pbyte; const pk: pbyte; const sk: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Precompute a shared key
+function crypto_box_curve25519xchacha20poly1305_beforenm(k: pbyte; const pk: pbyte; const sk: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Encrypt using a precomputed key
+function crypto_box_curve25519xchacha20poly1305_easy_afternm(c: pbyte; const m: pbyte; mlen: uint64; const n: pbyte; const k: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Decrypt using a precomputed key
+function crypto_box_curve25519xchacha20poly1305_open_easy_afternm(m: pbyte; const c: pbyte; clen: uint64; const n: pbyte; const k: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Encrypt with a precomputed key and detached tag
+function crypto_box_curve25519xchacha20poly1305_detached_afternm(c: pbyte; mac: pbyte; const m: pbyte; mlen: uint64; const n: pbyte; const k: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Decrypt with a precomputed key and detached tag
+function crypto_box_curve25519xchacha20poly1305_open_detached_afternm(m: pbyte; const c: pbyte; const mac: pbyte; clen: uint64; const n: pbyte; const k: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Overhead added by crypto_box_seal
+function crypto_box_curve25519xchacha20poly1305_sealbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Encrypt a message for a recipient
+function crypto_box_curve25519xchacha20poly1305_seal(c: pbyte; const m: pbyte; mlen: uint64; const pk: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Decrypt a sealed message
+function crypto_box_curve25519xchacha20poly1305_seal_open(m: pbyte; const c: pbyte; clen: uint64; const pk: pbyte; const sk: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Size of the HSalsa20 output in bytes
 function crypto_core_hsalsa20_outputbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Size of the HSalsa20 input in bytes
@@ -558,6 +636,16 @@ function crypto_core_hsalsa20_keybytes: size_t; cdecl; external {$ifndef STATICL
 function crypto_core_hsalsa20_constbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Core HSalsa20 operation
 function crypto_core_hsalsa20(const outbuf: pansichar; const inbuf: pansichar; const k: pansichar; const c: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Size of the HChaCha20 output in bytes
+function crypto_core_hchacha20_outputbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Size of the HChaCha20 input in bytes
+function crypto_core_hchacha20_inputbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Length of the HChaCha20 key
+function crypto_core_hchacha20_keybytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Size of the HChaCha20 constant in bytes
+function crypto_core_hchacha20_constbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Core HChaCha20 operation
+function crypto_core_hchacha20(const outbuf: pansichar; const inbuf: pansichar; const k: pansichar; const c: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Size of the Salsa20 output in bytes
 function crypto_core_salsa20_outputbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Size of the Salsa20 input in bytes
@@ -588,6 +676,78 @@ function crypto_core_salsa208_keybytes: size_t; cdecl; external {$ifndef STATICL
 function crypto_core_salsa208_constbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Core Salsa208 operation
 function crypto_core_salsa208(const outbuf: pansichar; const inbuf: pansichar; const k: pansichar; const c: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Size of an ed25519 point in bytes
+function crypto_core_ed25519_bytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Size of a uniform ed25519 point representation
+function crypto_core_ed25519_uniformbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Size of the ed25519 hash output
+function crypto_core_ed25519_hashbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Size of an ed25519 scalar
+function crypto_core_ed25519_scalarbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Size of an ed25519 non-reduced scalar
+function crypto_core_ed25519_nonreducedscalarbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Validate that a point lies on the ed25519 curve
+function crypto_core_ed25519_is_valid_point(const p: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Add two ed25519 points
+function crypto_core_ed25519_add(r: pbyte; const p: pbyte; const q: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Subtract two ed25519 points
+function crypto_core_ed25519_sub(r: pbyte; const p: pbyte; const q: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Map 32 uniform random bytes to a point
+function crypto_core_ed25519_from_uniform(p: pbyte; const r: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Map 64 bytes of hash output to a point
+function crypto_core_ed25519_from_hash(p: pbyte; const h: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Generate a random point on ed25519
+procedure crypto_core_ed25519_random(p: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Generate a random ed25519 scalar
+procedure crypto_core_ed25519_scalar_random(r: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Compute the multiplicative inverse of a scalar
+function crypto_core_ed25519_scalar_invert(recip: pbyte; const s: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Negate a scalar modulo the group order
+procedure crypto_core_ed25519_scalar_negate(neg: pbyte; const s: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Compute the complement of a scalar
+procedure crypto_core_ed25519_scalar_complement(comp: pbyte; const s: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Add two scalars modulo the group order
+procedure crypto_core_ed25519_scalar_add(z: pbyte; const x: pbyte; const y: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Subtract two scalars modulo the group order
+procedure crypto_core_ed25519_scalar_sub(z: pbyte; const x: pbyte; const y: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Multiply two scalars modulo the group order
+procedure crypto_core_ed25519_scalar_mul(z: pbyte; const x: pbyte; const y: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Reduce a 64-byte scalar modulo the group order
+procedure crypto_core_ed25519_scalar_reduce(r: pbyte; const s: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Size of a ristretto255 point in bytes
+function crypto_core_ristretto255_bytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Size of the ristretto255 hash output
+function crypto_core_ristretto255_hashbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Size of a ristretto255 scalar
+function crypto_core_ristretto255_scalarbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Size of a ristretto255 non-reduced scalar
+function crypto_core_ristretto255_nonreducedscalarbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Validate that a point lies on the ristretto255 curve
+function crypto_core_ristretto255_is_valid_point(const p: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Add two ristretto255 points
+function crypto_core_ristretto255_add(r: pbyte; const p: pbyte; const q: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Subtract two ristretto255 points
+function crypto_core_ristretto255_sub(r: pbyte; const p: pbyte; const q: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Map 64 bytes of hash output to a ristretto255 point
+function crypto_core_ristretto255_from_hash(p: pbyte; const r: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Generate a random ristretto255 point
+procedure crypto_core_ristretto255_random(p: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Generate a random ristretto255 scalar
+procedure crypto_core_ristretto255_scalar_random(r: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Compute the multiplicative inverse of a ristretto255 scalar
+function crypto_core_ristretto255_scalar_invert(recip: pbyte; const s: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Negate a ristretto255 scalar
+procedure crypto_core_ristretto255_scalar_negate(neg: pbyte; const s: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Compute the complement of a ristretto255 scalar
+procedure crypto_core_ristretto255_scalar_complement(comp: pbyte; const s: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Add two ristretto255 scalars
+procedure crypto_core_ristretto255_scalar_add(z: pbyte; const x: pbyte; const y: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Subtract two ristretto255 scalars
+procedure crypto_core_ristretto255_scalar_sub(z: pbyte; const x: pbyte; const y: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Multiply two ristretto255 scalars
+procedure crypto_core_ristretto255_scalar_mul(z: pbyte; const x: pbyte; const y: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Reduce a 64-byte scalar modulo the ristretto255 group order
+procedure crypto_core_ristretto255_scalar_reduce(r: pbyte; const s: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Minimum digest size in bytes
 function crypto_generichash_bytes_min: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Maximum digest size in bytes
@@ -742,6 +902,26 @@ function crypto_scalarmult_curve25519_scalarbytes: size_t; cdecl; external {$ifn
 function crypto_scalarmult_curve25519(const q: pansichar; const n: pansichar; const p: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Multiplies the curve25519 base point
 function crypto_scalarmult_curve25519_base(const q: pansichar; const n: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Size of the ed25519 group element
+function crypto_scalarmult_ed25519_bytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Size of the ed25519 scalar
+function crypto_scalarmult_ed25519_scalarbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Perform scalar multiplication on ed25519
+function crypto_scalarmult_ed25519(q: pbyte; const n: pbyte; const p: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Scalar multiplication without clamping the scalar
+function crypto_scalarmult_ed25519_noclamp(q: pbyte; const n: pbyte; const p: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Multiply the base point by a scalar
+function crypto_scalarmult_ed25519_base(q: pbyte; const n: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Multiply the base point by a scalar without clamping
+function crypto_scalarmult_ed25519_base_noclamp(q: pbyte; const n: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Size of the ristretto255 group element
+function crypto_scalarmult_ristretto255_bytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Size of the ristretto255 scalar
+function crypto_scalarmult_ristretto255_scalarbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Perform scalar multiplication on ristretto255
+function crypto_scalarmult_ristretto255(q: pbyte; const n: pbyte; const p: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Multiply the ristretto255 base point
+function crypto_scalarmult_ristretto255_base(q: pbyte; const n: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Size of the key in bytes
 function crypto_secretbox_keybytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Length of the crypto_secretbox nonce in bytes
@@ -816,6 +996,16 @@ function crypto_sign_open(const m: pansichar; mlen_p: puint64; const sm: pansich
 function crypto_sign_detached(const sig: pansichar; siglen_p: puint64; const m: pansichar; mlen: uint64; const sk: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Verify a detached signature
 function crypto_sign_verify_detached(const sig: pansichar; const m: pansichar; mlen: uint64; const pk: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Size of the incremental signing state structure
+function crypto_sign_statebytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Initialize an incremental signing state
+function crypto_sign_init(state: pcrypto_sign_state): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Update the signing state with more data
+function crypto_sign_update(state: pcrypto_sign_state; const m: pansichar; mlen: uint64): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Produce a signature using the accumulated state
+function crypto_sign_final_create(state: pcrypto_sign_state; sig: pansichar; siglen_p: puint64; const sk: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Verify a signature using the accumulated state
+function crypto_sign_final_verify(state: pcrypto_sign_state; const sig: pansichar; const pk: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Ed25519 signature size in bytes
 function crypto_sign_ed25519_bytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Number of ed25519 seed bytes
@@ -958,6 +1148,8 @@ function crypto_verify_64(const x: pansichar; const y: pansichar): integer; cdec
 procedure randombytes_buf(const buf: pointer; const size: size_t) cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Fills a buffer with deterministic random bytes
 procedure randombytes_buf_deterministic(const buf: pointer; const size: size_t; const seed: pansichar) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Length of the seed for deterministic random bytes
+function randombytes_seedbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Returns a random 32-bit value
 function randombytes_random: uint32 cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Returns a uniform random number below the bound
@@ -1014,6 +1206,8 @@ function sodium_hex2bin(const bin: pansichar; const bin_maxlen: size_t; const he
 function sodium_bin2base64(const b64: pansichar; const b64_maxlen: size_t; const bin: pansichar; const bin_len: size_t; const variant: integer): pansichar; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Parse a Base64 string into binary data
 function sodium_base642bin(const bin: pansichar; const bin_maxlen: size_t; const b64: pansichar; const b64_len: size_t; const ignore: pansichar; bin_len: psize_t; const b64_end: pansichar; const variant: integer): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Calculate the required length for a Base64 string
+function sodium_base64_encoded_len(bin_len: size_t; variant: integer): size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Locks memory to prevent swapping
 function sodium_mlock(const addr: pointer; const len: size_t): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Unlocks previously locked memory
@@ -1062,6 +1256,10 @@ function sodium_runtime_has_avx512: integer; cdecl; external {$ifndef STATICLINK
 function sodium_runtime_has_pclmul: integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Checks at runtime for aesni support
 function sodium_runtime_has_aesni: integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Checks at runtime for the ARM crypto extensions
+function sodium_runtime_has_armcrypto: integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Checks at runtime for the RDRAND instruction
+function sodium_runtime_has_rdrand: integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Generate a key pair for crypto_auth
 function crypto_auth_keypair(pk, sk: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Finalize a crypto_shorthash state
@@ -1120,6 +1318,46 @@ function crypto_aead_aes256gcm_encrypt_detached_afternm(c: pbyte; mac: pbyte; ma
 function crypto_aead_aes256gcm_decrypt_detached_afternm(m: pbyte; nsec: pbyte; c: pbyte; clen: uint64; mac: pbyte; ad: pbyte; adlen: uint64; npub: pbyte; ctx: pcrypto_aead_aes256gcm_state): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Generates a random AES-256-GCM key
 procedure crypto_aead_aes256gcm_keygen(k: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Length of the AEGIS-128L key
+function crypto_aead_aegis128l_keybytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Length of the optional secret nonce
+function crypto_aead_aegis128l_nsecbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Length of the public nonce
+function crypto_aead_aegis128l_npubbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Bytes added by the authentication tag
+function crypto_aead_aegis128l_abytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Maximum message length for this construction
+function crypto_aead_aegis128l_messagebytes_max: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Encrypts data using AEGIS-128L
+function crypto_aead_aegis128l_encrypt(c: pbyte; clen_p: puint64; m: pbyte; mlen: uint64; ad: pbyte; adlen: uint64; nsec: pbyte; npub: pbyte; k: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Decrypts data using AEGIS-128L
+function crypto_aead_aegis128l_decrypt(m: pbyte; mlen_p: puint64; nsec: pbyte; c: pbyte; clen: uint64; ad: pbyte; adlen: uint64; npub: pbyte; k: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Encrypts data using AEGIS-128L detached
+function crypto_aead_aegis128l_encrypt_detached(c: pbyte; mac: pbyte; maclen_p: puint64; m: pbyte; mlen: uint64; ad: pbyte; adlen: uint64; nsec: pbyte; npub: pbyte; k: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Decrypts data using AEGIS-128L detached
+function crypto_aead_aegis128l_decrypt_detached(m: pbyte; nsec: pbyte; c: pbyte; clen: uint64; mac: pbyte; ad: pbyte; adlen: uint64; npub: pbyte; k: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Generates a random AEGIS-128L key
+procedure crypto_aead_aegis128l_keygen(k: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Length of the AEGIS-256 key
+function crypto_aead_aegis256_keybytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Length of the optional secret nonce
+function crypto_aead_aegis256_nsecbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Length of the public nonce
+function crypto_aead_aegis256_npubbytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Bytes added by the authentication tag
+function crypto_aead_aegis256_abytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Maximum message length for this construction
+function crypto_aead_aegis256_messagebytes_max: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Encrypts data using AEGIS-256
+function crypto_aead_aegis256_encrypt(c: pbyte; clen_p: puint64; m: pbyte; mlen: uint64; ad: pbyte; adlen: uint64; nsec: pbyte; npub: pbyte; k: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Decrypts data using AEGIS-256
+function crypto_aead_aegis256_decrypt(m: pbyte; mlen_p: puint64; nsec: pbyte; c: pbyte; clen: uint64; ad: pbyte; adlen: uint64; npub: pbyte; k: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Encrypts data using AEGIS-256 detached
+function crypto_aead_aegis256_encrypt_detached(c: pbyte; mac: pbyte; maclen_p: puint64; m: pbyte; mlen: uint64; ad: pbyte; adlen: uint64; nsec: pbyte; npub: pbyte; k: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Decrypts data using AEGIS-256 detached
+function crypto_aead_aegis256_decrypt_detached(m: pbyte; nsec: pbyte; c: pbyte; clen: uint64; mac: pbyte; ad: pbyte; adlen: uint64; npub: pbyte; k: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Generates a random AEGIS-256 key
+procedure crypto_aead_aegis256_keygen(k: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Length of the xchacha20 key
 function crypto_stream_xchacha20_keybytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Length of an XChaCha20 nonce
@@ -1164,6 +1402,46 @@ function crypto_kdf_primitive: pansichar; cdecl; external {$ifndef STATICLINK}li
 function crypto_kdf_derive_from_key(subkey: pbyte; subkey_len: size_t; subkey_id: uint64; const ctx: pansichar; const key: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Generate a random master key
 procedure crypto_kdf_keygen(k: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Length of the HKDF-SHA-256 key
+function crypto_kdf_hkdf_sha256_keybytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Minimum derived key size for HKDF-SHA-256
+function crypto_kdf_hkdf_sha256_bytes_min: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Maximum derived key size for HKDF-SHA-256
+function crypto_kdf_hkdf_sha256_bytes_max: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Extract stage of HKDF-SHA-256
+function crypto_kdf_hkdf_sha256_extract(prk: pbyte; const salt: pbyte; salt_len: size_t; const ikm: pbyte; ikm_len: size_t): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Generate a random HKDF-SHA-256 key
+procedure crypto_kdf_hkdf_sha256_keygen(prk: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Expand stage of HKDF-SHA-256
+function crypto_kdf_hkdf_sha256_expand(out_: pbyte; out_len: size_t; const ctx: pansichar; ctx_len: size_t; const prk: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Size of the HKDF-SHA-256 streaming state
+function crypto_kdf_hkdf_sha256_statebytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Initialize HKDF-SHA-256 extract state
+function crypto_kdf_hkdf_sha256_extract_init(state: pcrypto_kdf_hkdf_sha256_state; const salt: pbyte; salt_len: size_t): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Update HKDF-SHA-256 extract state
+function crypto_kdf_hkdf_sha256_extract_update(state: pcrypto_kdf_hkdf_sha256_state; const ikm: pbyte; ikm_len: size_t): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Finalize HKDF-SHA-256 extract stage
+function crypto_kdf_hkdf_sha256_extract_final(state: pcrypto_kdf_hkdf_sha256_state; prk: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Length of the HKDF-SHA-512 key
+function crypto_kdf_hkdf_sha512_keybytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Minimum derived key size for HKDF-SHA-512
+function crypto_kdf_hkdf_sha512_bytes_min: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Maximum derived key size for HKDF-SHA-512
+function crypto_kdf_hkdf_sha512_bytes_max: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Extract stage of HKDF-SHA-512
+function crypto_kdf_hkdf_sha512_extract(prk: pbyte; const salt: pbyte; salt_len: size_t; const ikm: pbyte; ikm_len: size_t): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Generate a random HKDF-SHA-512 key
+procedure crypto_kdf_hkdf_sha512_keygen(prk: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Expand stage of HKDF-SHA-512
+function crypto_kdf_hkdf_sha512_expand(out_: pbyte; out_len: size_t; const ctx: pansichar; ctx_len: size_t; const prk: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Size of the HKDF-SHA-512 streaming state
+function crypto_kdf_hkdf_sha512_statebytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Initialize HKDF-SHA-512 extract state
+function crypto_kdf_hkdf_sha512_extract_init(state: pcrypto_kdf_hkdf_sha512_state; const salt: pbyte; salt_len: size_t): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Update HKDF-SHA-512 extract state
+function crypto_kdf_hkdf_sha512_extract_update(state: pcrypto_kdf_hkdf_sha512_state; const ikm: pbyte; ikm_len: size_t): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Finalize HKDF-SHA-512 extract stage
+function crypto_kdf_hkdf_sha512_extract_final(state: pcrypto_kdf_hkdf_sha512_state; prk: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Size of the public key in bytes
 function crypto_kx_publickeybytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Size of the secret key in bytes
