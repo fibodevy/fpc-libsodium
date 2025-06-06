@@ -1319,6 +1319,12 @@ function crypto_shorthash_siphash24_keybytes: size_t; cdecl; external {$ifndef S
 function crypto_shorthash_siphash24(const outbuf: pansichar; const inbuf: pansichar; inlen: uint64; const k: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Finalize a crypto_shorthash state
 function crypto_shorthash_final(out_: pbyte; sh: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// SipHash-x-2-4 output size in bytes
+function crypto_shorthash_siphashx24_bytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Length of the siphashx24 key
+function crypto_shorthash_siphashx24_keybytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Computes a SipHash-x-2-4 message authenticator
+function crypto_shorthash_siphashx24(const outbuf: pansichar; const inbuf: pansichar; inlen: uint64; const k: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 
 { SIGN }
 // Maximum signature size in bytes
@@ -1379,6 +1385,16 @@ function crypto_sign_ed25519_sk_to_curve25519(const curve25519_sk: pansichar; co
 function crypto_sign_ed25519_sk_to_seed(const seed: pansichar; const sk: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Derives the public key from an ed25519 secret key
 function crypto_sign_ed25519_sk_to_pk(const pk: pansichar; const sk: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Size of the ed25519ph state structure
+function crypto_sign_ed25519ph_statebytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Initialize an ed25519ph signing state
+function crypto_sign_ed25519ph_init(state: pcrypto_sign_ed25519ph_state): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Update the ed25519ph state with data
+function crypto_sign_ed25519ph_update(state: pcrypto_sign_ed25519ph_state; const m: pansichar; mlen: uint64): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Create a detached signature using ed25519ph
+function crypto_sign_ed25519ph_final_create(state: pcrypto_sign_ed25519ph_state; sig: pansichar; siglen_p: puint64; const sk: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Verify a detached ed25519ph signature
+function crypto_sign_ed25519ph_final_verify(state: pcrypto_sign_ed25519ph_state; const sig: pansichar; const pk: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Edwards25519-SHA512batch signature size in bytes
 function crypto_sign_edwards25519sha512batch_bytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Length of the edwards25519sha512batch public key
@@ -1411,6 +1427,10 @@ function crypto_stream_chacha20(const c: pansichar; clen: uint64; const n: pansi
 function crypto_stream_chacha20_xor(const c: pansichar; const m: pansichar; mlen: uint64; const n: pansichar; const k: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // XOR a message with a ChaCha20 stream starting at a given block
 function crypto_stream_chacha20_xor_ic(const c: pansichar; const m: pansichar; mlen: uint64; const n: pansichar; ic: uint64; const k: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Maximum message length for ChaCha20
+function crypto_stream_chacha20_messagebytes_max: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Generates a random key for ChaCha20
+procedure crypto_stream_chacha20_keygen(k: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Length of an IETF ChaCha20 nonce
 function crypto_stream_chacha20_ietf_noncebytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Generate an IETF ChaCha20 keystream
@@ -1419,6 +1439,12 @@ function crypto_stream_chacha20_ietf(const c: pansichar; clen: uint64; const n: 
 function crypto_stream_chacha20_ietf_xor(const c: pansichar; const m: pansichar; mlen: uint64; const n: pansichar; const k: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // XOR using the IETF ChaCha20 variant starting at a block counter
 function crypto_stream_chacha20_ietf_xor_ic(const c: pansichar; const m: pansichar; mlen: uint64; const n: pansichar; ic: uint32; const k: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Length of an IETF ChaCha20 key
+function crypto_stream_chacha20_ietf_keybytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Maximum message length for IETF ChaCha20
+function crypto_stream_chacha20_ietf_messagebytes_max: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Generates a random key for IETF ChaCha20
+procedure crypto_stream_chacha20_ietf_keygen(k: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Length of the salsa20 key
 function crypto_stream_salsa20_keybytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Length of a Salsa20 nonce
@@ -1429,6 +1455,10 @@ function crypto_stream_salsa20(const c: pansichar; clen: uint64; const n: pansic
 function crypto_stream_salsa20_xor(const c: pansichar; const m: pansichar; mlen: uint64; const n: pansichar; const k: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // XOR a message with a Salsa20 stream starting at a given block
 function crypto_stream_salsa20_xor_ic(const c: pansichar; const m: pansichar; mlen: uint64; const n: pansichar; ic: uint64; const k: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Maximum message length for Salsa20
+function crypto_stream_salsa20_messagebytes_max: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Generates a random key for Salsa20
+procedure crypto_stream_salsa20_keygen(k: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Length of the salsa2012 key
 function crypto_stream_salsa2012_keybytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Length of a Salsa2012 nonce
@@ -1437,6 +1467,22 @@ function crypto_stream_salsa2012_noncebytes: size_t; cdecl; external {$ifndef ST
 function crypto_stream_salsa2012(const c: pansichar; clen: uint64; const n: pansichar; const k: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // XOR a message with a Salsa2012 stream
 function crypto_stream_salsa2012_xor(const c: pansichar; const m: pansichar; mlen: uint64; const n: pansichar; const k: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Maximum message length for Salsa2012
+function crypto_stream_salsa2012_messagebytes_max: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Generates a random key for Salsa2012
+procedure crypto_stream_salsa2012_keygen(k: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Length of the salsa208 key
+function crypto_stream_salsa208_keybytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Length of a Salsa208 nonce
+function crypto_stream_salsa208_noncebytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Maximum message length for Salsa208
+function crypto_stream_salsa208_messagebytes_max: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Core Salsa208 operation
+function crypto_stream_salsa208(c: pansichar; clen: uint64; const n: pansichar; const k: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// XOR a message with a Salsa208 stream
+function crypto_stream_salsa208_xor(c: pansichar; const m: pansichar; mlen: uint64; const n: pansichar; const k: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Generates a random key for Salsa208
+procedure crypto_stream_salsa208_keygen(k: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Length of the xsalsa20 key
 function crypto_stream_xsalsa20_keybytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Length of an XSalsa20 nonce
@@ -1447,6 +1493,10 @@ function crypto_stream_xsalsa20(const c: pansichar; clen: uint64; const n: pansi
 function crypto_stream_xsalsa20_xor(const c: pansichar; const m: pansichar; mlen: uint64; const n: pansichar; const k: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // XOR using the XSalsa20 stream starting at a given block
 function crypto_stream_xsalsa20_xor_ic(const c: pansichar; const m: pansichar; mlen: uint64; const n: pansichar; ic: uint64; const k: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Maximum message length for XSalsa20
+function crypto_stream_xsalsa20_messagebytes_max: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Generates a random key for XSalsa20
+procedure crypto_stream_xsalsa20_keygen(k: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Length of the xchacha20 key
 function crypto_stream_xchacha20_keybytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Length of an XChaCha20 nonce
@@ -1529,6 +1579,14 @@ procedure sodium_free(ptr: pointer) cdecl; external {$ifndef STATICLINK}lib{$end
 function sodium_compare(const b1: pansichar; const b2: pansichar; const len: size_t): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Increments a big-endian number
 procedure sodium_increment(const bin: pansichar; const bin_len: size_t) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Returns 1 if the buffer is all zeros, 0 otherwise
+function sodium_is_zero(const n: pansichar; nlen: size_t): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Adds two large numbers (little-endian)
+procedure sodium_add(const a: pansichar; const b: pansichar; const len: size_t) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Subtracts two large numbers (little-endian)
+procedure sodium_sub(const a: pansichar; const b: pansichar; const len: size_t) cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Wipes stack memory
+procedure sodium_stackzero(const len: size_t) cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Checks at runtime for ssse3 support
 function sodium_runtime_has_ssse3: integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Checks at runtime for sse41 support
