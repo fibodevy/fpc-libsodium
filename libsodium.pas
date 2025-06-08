@@ -1595,8 +1595,8 @@ function sodium_runtime_has_sse41: integer; cdecl; external {$ifndef STATICLINK}
 function sodium_runtime_has_avx: integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Checks at runtime for avx2 support
 function sodium_runtime_has_avx2: integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
-// Checks at runtime for avx512 support
-function sodium_runtime_has_avx512: integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Checks at runtime for AVX512F support
+function sodium_runtime_has_avx512f: integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Checks at runtime for pclmul support
 function sodium_runtime_has_pclmul: integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Checks at runtime for aesni support
