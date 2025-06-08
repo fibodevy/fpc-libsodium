@@ -1317,6 +1317,8 @@ function crypto_shorthash_siphash24_bytes: size_t; cdecl; external {$ifndef STAT
 function crypto_shorthash_siphash24_keybytes: size_t; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Computes a SipHash-2-4 message authenticator
 function crypto_shorthash_siphash24(const outbuf: pansichar; const inbuf: pansichar; inlen: uint64; const k: pansichar): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Generates a random key for crypto_shorthash
+procedure crypto_shorthash_keygen(k: pbyte) cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Finalize a crypto_shorthash state
 function crypto_shorthash_final(out_: pbyte; sh: pbyte): integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // SipHash-x-2-4 output size in bytes
@@ -1571,6 +1573,8 @@ function sodium_version_string: pansichar; cdecl; external {$ifndef STATICLINK}l
 function sodium_library_version_major: integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Returns the minor library version
 function sodium_library_version_minor: integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
+// Returns 1 if the library was compiled with minimal features
+function sodium_library_minimal: integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Initialize the sodium library
 function sodium_init: integer; cdecl; external {$ifndef STATICLINK}lib{$endif};
 // Frees memory allocated by sodium_malloc
