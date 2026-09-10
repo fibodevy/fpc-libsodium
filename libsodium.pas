@@ -13,7 +13,7 @@ interface
 {$define STATICLINK}
 
 {$ifndef STATICLINK}
-  {$ifdef WIN32}
+  {$if defined(WIN32)}
     const lib = 'libsodium.dll';
   {$elseif defined(WIN64)}
     const lib = 'libsodium64.dll';
@@ -21,7 +21,7 @@ interface
     {$fatal dynamic lib for this target not defined}
   {$endif}
 {$else}
-  {$ifdef WIN32}
+  {$if defined(WIN32)}
     {$linklib libsodium.a}
     {$linklib libkernel32.a}
     {$linklib libmsvcrt.a}
